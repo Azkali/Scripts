@@ -33,4 +33,4 @@ $FORMATDATA && dataformat
 cp "$TEMP/boot/boot.img-zImage" "$BOOTSET/$1/zImage"
 
 # Copy rd
-cat "$TEMP/vendor_boot/vendor_boot.img-vendor_ramdisk" "$TEMP/boot/boot.img-ramdisk.gz" "$BOOTSET/$1/initrd.cpio.lz4"
+cat "$TEMP/vendor_boot/vendor_boot.img-vendor_ramdisk" "$TEMP/boot/boot.img-ramdisk.gz" > "$BOOTSET/$1/initrd.cpio.lz4"
