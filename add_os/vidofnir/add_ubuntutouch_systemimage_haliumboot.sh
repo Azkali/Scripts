@@ -8,13 +8,19 @@ cp "$3" "$BOOTSET/$1/logo.bin"
 
 # Create working dir
 TEMP="$(mktemp -d)"
-mkdir -p "$TEMP/boot"
+mkdir -p "$TEMP/boot" "$TEMP/vendor_boot"
 
 # Copy boot
 cp "$2" "$TEMP/boot/boot.img"
 
+# Copy vendor_boot
+cp "$4" "$TEMP/boot/vendor_boot.img"
+
 # Unpack boot
 unpackbootimg -i "$TEMP/boot/boot.img" -o "$TEMP/boot/"
+
+# Unpack vendor_boot
+unpackbootimg -i "$TEMP/boot/vendor_boot.img" -o "$TEMP/vendor_boot/"
 
 # Format partition
 DATAPART=$5
@@ -27,4 +33,4 @@ $FORMATDATA && dataformat
 cp "$TEMP/boot/boot.img-zImage" "$BOOTSET/$1/zImage"
 
 # Copy rd
-cp "$TEMP/boot/boot.img-ramdisk.gz" "$BOOTSET/$1/initrd.cpio.gz"
+cat "$TEMP/vendor_boot/vendor_boot.img-vendor_ramdisk" "$TEMP/boot/boot.img-ramdisk.gz" "$BOOTSET/$1/initrd.cpio.lz4"
